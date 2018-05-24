@@ -4,8 +4,23 @@
  * and open the template in the editor.
  */
 package cam;
-import cam.reta;
-import cam.Haversine;
+import de.tudresden.sumo.cmd.*;
+import de.tudresden.sumo.config.Constants;
+import de.tudresden.sumo.util.SumoCommand;
+import de.tudresden.ws.container.SumoPosition2D;
+import de.tudresden.ws.container.SumoPosition3D;
+import de.tudresden.ws.container.SumoStringList;
+import de.tudresden.ws.container.SumoVehicleData;
+import it.polito.appeal.traci.SumoTraciConnection;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**
@@ -17,7 +32,10 @@ public class CAM {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+
+
+        testeSUMO();
         // TODO code application logic here
         double[][] millis = new double[2][2];
         double[][] lon = new double[2][2];
@@ -191,4 +209,86 @@ public class CAM {
         return r;
     }
 
+
+
+
+     public static void testeSUMO() throws Exception {
+
+        String sumo_bin = "C:/Program Files (x86)/DLR/Sumo/bin/sumo/";
+
+        // String config_file = "C:/Users/Daniel Costa/Desktop/simulation/config.sumo.cfg";
+           String config_file = "C:/Users/Daniel Costa/Documents/Sumo/map.sumo.cfg";
+           SumoTraciConnection conn = new SumoTraciConnection(sumo_bin, config_file);
+
+         conn.addOption("step-length", "0.1"); //timestep 1 second
+
+         try{
+
+             //start TraCI
+             conn.runServer();
+
+             //load routes and initialize the simulation
+             conn.do_timestep();
+             conn.do_timestep();
+             conn.do_timestep();
+             conn.do_timestep();
+
+             for(int i=0; i<100; i++){
+                // conn.do_timestep(); // Adicionar isto para retirar os veiculos seguintes
+             }
+
+             for(int i=0; i<1800; i++){
+
+                 //current simulation time
+
+                 int simtime = (int) conn.do_job_get(Simulation.getCurrentTime());
+
+                 SumoPosition2D positionveh = (SumoPosition2D) conn.do_job_get(Vehicle.getPosition("2"));
+                 // SumoPosition3D test2 = (SumoPosition3D) conn.do_job_get(Vehicle.getPosition3D("0"));
+                 // Double teste2 = (Double) conn.do_job_get(Vehicle.getLanePosition("1"));
+                 // System.out.println("timestep: " + i + " " + teste.toString());
+                 // System.out.println("timestep: " + i + " " + test2.x + " X  " +test2.y + " Y "  +test2.z + " Z" );
+                 // System.out.println("timestep: " + i + " " + test3.x + " X  " +test2.y + " Y "  +test2.z + " Z" );
+                 SumoPosition2D xyToLatLong;
+                 Boolean b = false;
+                 SumoCommand sumoCommand = Simulation.convertGeo(positionveh.x, positionveh.y, b);
+                 xyToLatLong = (SumoPosition2D) conn.do_job_get(sumoCommand);
+
+                 System.out.println("simtime: " + simtime + " " + xyToLatLong.toString() + " Coordinates");
+
+                 //add new vehicle
+                // conn.do_job_set(Vehicle.add("veh"+i, "car", "s1", simtime, 0, 13.8, (byte) 1));
+                 conn.do_timestep();
+             }
+
+             //stop TraCI
+             conn.close();
+         }catch(Exception ex){ex.printStackTrace();}
+
+     }
+
+
+
+
+
+         /*       //conn.do_timestep();
+         for (int i = 0; i < 3600; i++) {
+             conn.do_timestep();
+             //System.out.println(conn.do_job_get(Vehicle.getIDList()));
+              Object o = conn.do_job_get(Vehicle.getLanePosition("veh1"));
+            // Collection<Vehicle> vehicles = conn.getVehicleRepository().getAll().values();
+         }
+/*
+            System.out.println(conn.do_job_get(Simulation.getLoadedNumber()));
+            System.out.println(conn.do_job_get(Simulation.getDepartedNumber()));
+            System.out.println(conn.do_job_get(Vehicle.getDistance("1")));
+            System.out.println(conn.do_job_get(Vehicle.getColor("1")));
+            System.out.println(conn.do_job_get(Vehicletype.getIDList()));
+             System.out.println(conn.do_job_get(Simulation.getArrivedIDList()));
+             //double co2 = (double) conn.do_job_get(Vehicle.getCO2Emission("11"));
+               // System.out.println("CO2: " + co2 + " g/s");
+
+               */
 }
+
+
