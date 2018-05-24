@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 /**
  *
  * @author toms
@@ -42,12 +43,16 @@ public class CAM {
         double velocidade1;
         double tempoColisao1;
 
-        double distanciadetravagem1;
-        double distanciadetravagem2;
+        double distanciadeTravagem1;
+        double distanciadeTravagem2;
 
         int tempoaviso = 10; //com quanto tempo de antecedencia avisamos o condutor
-        double distanciaaviso1;
-        double distanciaaviso2;
+        double distanciaAviso1;
+        double distanciaAviso2;
+        double auxDistancia1 = 1000000;
+        double auxDistancia2 = 1000000;
+
+        double distanciaEntreCarros;
 
         double distancia2;
         double distanciaColisao2;
@@ -64,7 +69,7 @@ public class CAM {
         int aux1 = 0;
         int aux2 = 0;
 
-        while(t1.isAlive()){
+        while(t1.isAlive() && t2.isAlive()){
 
             //System.out.println("TESTE " + c1.toString());
 
@@ -128,38 +133,59 @@ public class CAM {
                 segundos2 = (millis[1][1] - millis[1][0])/1000;
             }
 //-----------------------------------------------------------
-            if(aux1 == 2 && aux2 ==2){
+            if(aux1 == 2 && aux2 == 2){ //se existirem 2 coordenadas para os dois carros
                 x = (r2.b - r1.b) / (r1.m - r2.m);
                 y = (r1.m * x) + r1.b;
 
+                distanciaEntreCarros = Haversine.distance(lat[0][1], lon[0][1], lat[1][1], lon[1][1])*1000;
+//carro 1------------
                 distancia1 = Haversine.distance(lat[0][0], lon[0][0], lat[0][1], lon[0][1])*1000; //distancia em metros
                 distanciaColisao1 = Haversine.distance(lat[0][1], lon[0][1] , x, y)*1000;
                 velocidade1 = distancia1/segundos1 ;
                 tempoColisao1 = distanciaColisao1/velocidade1 ;
-                distanciadetravagem1 = (velocidade1 * velocidade1) / 15.696;
-
+                distanciadeTravagem1 = (velocidade1 * velocidade1) / 15.696;
+                distanciaAviso1 = tempoaviso * velocidade1 + distanciadeTravagem1; //distancia à qual vai ser gerado o aviso
+//carro 2------------
                 distancia2 = Haversine.distance(lat[1][0], lon[1][0], lat[1][1], lon[1][1])*1000;
                 distanciaColisao2 = Haversine.distance(lat[1][1], lon[1][1] , x, y)*1000;
                 velocidade2 = distancia2/segundos2 ;
                 tempoColisao2 = distanciaColisao2/velocidade2 ;
-                distanciadetravagem2 = (velocidade2 * velocidade2) / 15.696;
+                distanciadeTravagem2 = (velocidade2 * velocidade2) / 15.696;
+                distanciaAviso2 = tempoaviso * velocidade2 + distanciadeTravagem2;
 
-                System.out.println("reta 1: y = " + r1.m + "x" + "+(" + r1.b + ")");
-                System.out.println("reta 2: y = " + r2.m + "x" + "+(" + r2.b + ")");
-                System.out.println("Ponto de colisão: ( " + x + ", " + y +")");
-                System.out.println("---------------------------------------------");
-                System.out.println("1:Distancia ao ponto de colisão: " + distanciaColisao1 + "m");
-                System.out.println("1:Velocidade do Veiculo: " + velocidade1 + "m/s");
-                System.out.println("1:Distancia: " + distancia1 + "m");
-                System.out.println("1:Distancia de travagem: " + distanciadetravagem1 + "m");
-                System.out.println("1:Tempo que demora ao ponto de colisão: " + tempoColisao1 + "s");
-                System.out.println("---------------------------------------------");
-                System.out.println("2:Distancia ao ponto de colisão: " + distanciaColisao2 + "m");
-                System.out.println("2:Velocidade do Veiculo: " + velocidade2 + "m/s");
-                System.out.println("2:Distancia " + distancia2 + "m");
-                System.out.println("1:Distancia de travagem: " + distanciadetravagem2 + "m");
-                System.out.println("2:Tempo que demora ao ponto de colisão: " + tempoColisao2 + "s");
-
+                if(distanciaAviso1 >= distanciaColisao1 || distanciaAviso2 >= distanciaColisao2 && Math.abs(tempoColisao2 - tempoColisao1) < 10)
+                {
+                    System.out.println("!!!!!TRAVAR Colisão Eminente!!!!!");
+                }else {
+                    System.out.println("reta 1: y = " + r1.m + "x" + "+(" + r1.b + ")");
+                    System.out.println("reta 2: y = " + r2.m + "x" + "+(" + r2.b + ")");
+                    System.out.println("Ponto de colisão: ( " + x + ", " + y + ")");
+                    System.out.println("------------------Carro 1----------------------");
+                    System.out.println("1:Distancia ao ponto de colisão: " + distanciaColisao1 + "m");
+                    System.out.println("1:Tempo que demora ao ponto de colisão: " + tempoColisao1 + "s");
+                    System.out.println("1:Velocidade do Veiculo: " + velocidade1 + "m/s");
+                    System.out.println("1:Distancia de travagem: " + distanciadeTravagem1 + "m");
+                    System.out.println("1:Distancia do aviso: " + distanciaAviso1 + "m");
+                    System.out.println("------------------Carro 2----------------------");
+                    System.out.println("2:Distancia ao ponto de colisão: " + distanciaColisao2 + "m");
+                    System.out.println("2:Tempo que demora ao ponto de colisão: " + tempoColisao2 + "s");
+                    System.out.println("2:Velocidade do Veiculo: " + velocidade2 + "m/s");
+                    System.out.println("2:Distancia de travagem: " + distanciadeTravagem2 + "m");
+                    System.out.println("2:Distancia do aviso: " + distanciaAviso2 + "m");
+                    System.out.println("---------------------------------------------");
+                }
+                if(distanciaColisao1 < auxDistancia1) //menor distancia ao ponto de colisão
+                {
+                    auxDistancia1 = distanciaColisao1;
+                }else{
+                    t1.stop();
+                }
+                if(distanciaColisao2 < auxDistancia2)
+                {
+                    auxDistancia2 = distanciaColisao2;
+                }else{
+                    t2.stop();
+                }
             }
         }
     }
