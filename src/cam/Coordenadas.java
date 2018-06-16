@@ -10,31 +10,25 @@ package cam;
  * @author toms
  */
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Coordenadas extends Thread {
     private long millis;
-    private double longi = -8.401299;
-    private double lat = 41.555019;
-    private int idcar = 1;
-    private static int delay = 1000;
-    private double varialat = 0.000100;
-    private double varialong = 0.000100;   
-       
-    
-    public Coordenadas() {
-       // this.millis = System.currentTimeMillis();
-      //  this.lat = 41.558885;
-      //  this.longi =  -8.396776;
-       // this.idcar = 1;
-        }
-    
-        public Coordenadas(long millis, double longi, double lat, int idcar, double varlong, double varlat) {
-        this.millis = millis;
-        this.lat = lat;
-        this.longi =  longi;
-        this.idcar = idcar;
-        this.varialat = varlat;
-        this.varialong = varlong;
+    private double longi;
+    private double lat;
+    private int idcar;
+    private static int delay = 100;
+    List<SUMOCoordenadas> getListaVehiclo = new ArrayList<>();
+
+
+
+
+        public Coordenadas(int idcar) throws Exception {
+            this.idcar = idcar;
+            SUMOOutput s = new SUMOOutput();
+            getListaVehiclo = s.testeSUMO(idcar);
+            //getListaVehiclo = s.testeSUMO("0");
         }
         public Coordenadas(Coordenadas c){
          this.millis = c.getMillis();
@@ -79,18 +73,17 @@ public class Coordenadas extends Thread {
         public void run() {
 
             while (true) {
+                for(SUMOCoordenadas veiculo : getListaVehiclo ) {
+                    this.millis = veiculo.time;
+                    this.lat = veiculo.latitude;
+                    this.longi = veiculo.longitude;
 
-                this.millis = System.currentTimeMillis();
-                this.lat = lat + this.varialat;
-                this.longi = longi + this.varialong;
-                //System.out.println("Latitude: " +lat +  " Longitude: " +longi + " Miliseconds: " +millis+ " IDCAR: " + idcar);
-
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-
             }
         }
     }

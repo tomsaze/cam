@@ -35,7 +35,7 @@ public class SUMOOutput {
 
 
 
-    public List testeSUMO(String n) throws Exception {
+    public List testeSUMO(int n) throws Exception {
 
         String sumo_bin = "sumo";
         List<SUMOCoordenadas> listacoordenadasveiculo = new ArrayList<>();
@@ -66,7 +66,7 @@ public class SUMOOutput {
 
                 int simtime = (int) conn.do_job_get(Simulation.getCurrentTime());
 
-                SumoPosition2D positionveh = (SumoPosition2D) conn.do_job_get(Vehicle.getPosition(n));
+                SumoPosition2D positionveh = (SumoPosition2D) conn.do_job_get(Vehicle.getPosition(String.valueOf(n)));
 
                 // SumoPosition3D test2 = (SumoPosition3D) conn.do_job_get(Vehicle.getPosition3D("0"));
                 // Double teste2 = (Double) conn.do_job_get(Vehicle.getLanePosition("1"));

@@ -1,21 +1,8 @@
 package cam;
 
 public class CalculoColisao {
-    private double lat1;
-    private double long1;
-    private double time1;
-    private double lat2;
-    private double long2;
-    private double time2;
 
-    public void colisao(double lat1, double long1, double time1, double lat2, double long2, double time2) {
-
-        this.lat1 = lat1;
-        this.long1 = long1;
-        this.time1 = time1;
-        this.lat2 = lat2;
-        this.long2 = long2;
-        this.time2 = time2;
+    public void colisao() {
 
         double[][] millis = new double[2][2];
         double[][] lon = new double[2][2];
@@ -36,8 +23,8 @@ public class CalculoColisao {
         int tempoaviso = 10; //com quanto tempo de antecedencia avisamos o condutor
         double distanciaAviso1;
         double distanciaAviso2;
-        double auxDistancia1 = 1000000;
-        double auxDistancia2 = 1000000;
+        double auxDistancia1 = 10000000;//inicializar com um numero grande para poder calcular o menor
+        double auxDistancia2 = 10000000;
 
         double distanciaEntreCarros;
 
@@ -47,8 +34,19 @@ public class CalculoColisao {
         double tempoColisao2;
         reta r1 = new reta();
         reta r2 = new reta();
-        Coordenadas c1 = new Coordenadas(0, -8.401299, 41.555019, 1, 0.000100, 0.000100);
-        Coordenadas c2 = new Coordenadas(0, -8.395078, 41.554015, 2, -0.000100, 0.000100);
+        Coordenadas c1 = null;
+        try {
+            c1 = new Coordenadas(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Coordenadas c2 = null;
+        try {
+            c2 = new Coordenadas(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Thread t1 = new Thread(c1);
         Thread t2 = new Thread(c2);
         t1.start();
@@ -58,11 +56,9 @@ public class CalculoColisao {
 
         while (t1.isAlive() && t2.isAlive()) {
 
-            //System.out.println("TESTE " + c1.toString());
-
             try {
-                t1.sleep(1000);
-                t2.sleep(1000);
+                t1.sleep(100);
+                t2.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -119,8 +115,21 @@ public class CalculoColisao {
                 r2 = calculoReta(lon[1][0], lat[1][0], lon[1][1], lat[1][1]);
                 segundos2 = (millis[1][1] - millis[1][0]) / 1000;
             }
+            System.out.println("Carro1:");
+            System.out.println("Coordenada 1 "+millis[0][0] +" "+lat[0][0] +" "+ lon[0][0]);
+            System.out.println("Coordenada 2 "+millis[0][1] +" "+lat[0][1] +" "+ lon[0][1] + "\n" );
+            System.out.println("Carro2:");
+            System.out.println("Coordenada 1 "+millis[1][0] +" "+lat[1][0] +" "+ lon[1][0]);
+            System.out.println("Coordenada 2 "+millis[1][1] +" "+lat[1][1] +" "+ lon[1][1] + "\n" );
+
 //-----------------------------------------------------------
-            if (aux1 == 2 && aux2 == 2) { //se existirem 2 coordenadas para os dois carros
+            if (aux1 == 2 && aux2 == 2
+                    && lat[0][0] != lat[0][1]
+                    && lat[1][0] != lat[1][1]
+                    && lon[0][0] != lon[0][1]
+                    && lon[1][0] != lon[1][1]) { //se existirem 2 coordenadas para os dois carros
+
+
                 x = (r2.b - r1.b) / (r1.m - r2.m);
                 y = (r1.m * x) + r1.b;
 
