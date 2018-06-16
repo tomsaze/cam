@@ -35,13 +35,13 @@ public class SUMOOutput {
 
 
 
-    public List testeSUMO() throws Exception {
+    public List testeSUMO(String n) throws Exception {
 
-        String sumo_bin = "C:/Program Files (x86)/DLR/Sumo/bin/sumo/";
-        List<SUMOCoordenadas> listacoordenadasveiculo0 = new ArrayList<>();
+        String sumo_bin = "sumo";
+        List<SUMOCoordenadas> listacoordenadasveiculo = new ArrayList<>();
 
-        // String config_file = "C:/Users/Daniel Costa/Desktop/simulation/config.sumo.cfg";
-        String config_file = "C:/Users/Daniel Costa/Documents/Sumo/map.sumo.cfg";
+        String config_file = "/home/toms/Documents/LEI/map/map.sumo.cfg";
+       // String config_file = /"C:/Users/Daniel Costa/Documents/Sumo/map.sumo.cfg";
         SumoTraciConnection conn = new SumoTraciConnection(sumo_bin, config_file);
 
         conn.addOption("step-length", "0.1"); //timestep 1 second
@@ -56,11 +56,9 @@ public class SUMOOutput {
 
             //Começa aos 10 segundos
 
-            for(int i=0; i<100; i++){ //100 = 10 Segundos de Simulação
+            //for(int i=0; i<100; i++){ //100 = 10 Segundos de Simulação
                 // conn.do_timestep(); // Adicionar isto para retirar os veiculos seguintes
-            }
-
-            String vehicle = "0";
+            //}
 
             for(int i=0; i<2500; i++){
 
@@ -68,23 +66,19 @@ public class SUMOOutput {
 
                 int simtime = (int) conn.do_job_get(Simulation.getCurrentTime());
 
-                SumoPosition2D positionveh0 = (SumoPosition2D) conn.do_job_get(Vehicle.getPosition("0"));
-                SumoPosition2D positionveh1 = (SumoPosition2D) conn.do_job_get(Vehicle.getPosition("1"));
+                SumoPosition2D positionveh = (SumoPosition2D) conn.do_job_get(Vehicle.getPosition(n));
 
                 // SumoPosition3D test2 = (SumoPosition3D) conn.do_job_get(Vehicle.getPosition3D("0"));
                 // Double teste2 = (Double) conn.do_job_get(Vehicle.getLanePosition("1"));
                 // System.out.println("timestep: " + i + " " + teste.toString());
                 // System.out.println("timestep: " + i + " " + test2.x + " X  " +test2.y + " Y "  +test2.z + " Z" );
                 // System.out.println("timestep: " + i + " " + test3.x + " X  " +test2.y + " Y "  +test2.z + " Z" );
-                SumoPosition2D xyToLatLong0;
-                SumoPosition2D xyToLatLong1;
+                SumoPosition2D xyToLatLong;
                 Boolean b = false;
-                SumoCommand sumoCommand0 = Simulation.convertGeo(positionveh0.x, positionveh0.y, b);
-                SumoCommand sumoCommand1 = Simulation.convertGeo(positionveh1.x, positionveh1.y, b);
-                xyToLatLong0 = (SumoPosition2D) conn.do_job_get(sumoCommand0);
-                xyToLatLong1 = (SumoPosition2D) conn.do_job_get(sumoCommand1);
+                SumoCommand sumoCommand = Simulation.convertGeo(positionveh.x, positionveh.y, b);
+                xyToLatLong = (SumoPosition2D) conn.do_job_get(sumoCommand);
 
-                listacoordenadasveiculo0.add(new SUMOCoordenadas(xyToLatLong0.y, xyToLatLong0.x));
+                listacoordenadasveiculo.add(new SUMOCoordenadas(xyToLatLong.y, xyToLatLong.x, simtime));
 
 
                 //System.out.println("simtime: " + simtime + " " + xyToLatLong0.toString() + " Coordinates " + "Vehicle 0");
@@ -103,6 +97,6 @@ public class SUMOOutput {
 
         }catch(Exception ex){ex.printStackTrace();}
 
-        return listacoordenadasveiculo0;
+        return listacoordenadasveiculo;
     }
 }

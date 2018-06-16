@@ -1,42 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cam;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CalculoColisao {
+    private double lat1;
+    private double long1;
+    private double time1;
+    private double lat2;
+    private double long2;
+    private double time2;
 
+    public void colisao(double lat1, double long1, double time1, double lat2, double long2, double time2) {
 
+        this.lat1 = lat1;
+        this.long1 = long1;
+        this.time1 = time1;
+        this.lat2 = lat2;
+        this.long2 = long2;
+        this.time2 = time2;
 
-/**
- *
- * @author toms
- */
-public class CAM {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws Exception {
-
-        SUMOOutput s0 = new SUMOOutput();
-        List<SUMOCoordenadas> getListaVehiclo0 = new ArrayList<>();
-        getListaVehiclo0 = s0.testeSUMO("0");
-
-        SUMOOutput s1 = new SUMOOutput();
-        List<SUMOCoordenadas> getListaVehiclo1 = new ArrayList<>();
-        getListaVehiclo1 = s1.testeSUMO("1");
-
-        CalculoColisao cal = new CalculoColisao();
-
-        for(SUMOCoordenadas veiculo0 : getListaVehiclo0 ) {
-           // cal.colisao(veiculo0.latitude, veiculo0.longitude);
-            System.out.println(veiculo0.latitude + " " + veiculo0.longitude + " " + veiculo0.time);
-        }
-
-        // TODO code application logic here
         double[][] millis = new double[2][2];
         double[][] lon = new double[2][2];
         double[][] lat = new double[2][2];
@@ -68,15 +48,15 @@ public class CAM {
         reta r1 = new reta();
         reta r2 = new reta();
         Coordenadas c1 = new Coordenadas(0, -8.401299, 41.555019, 1, 0.000100, 0.000100);
-        Coordenadas c2 = new Coordenadas(0,-8.395078 , 41.554015, 2, -0.000100 , 0.000100);
+        Coordenadas c2 = new Coordenadas(0, -8.395078, 41.554015, 2, -0.000100, 0.000100);
         Thread t1 = new Thread(c1);
         Thread t2 = new Thread(c2);
-        t1.start() ;
-        t2.start() ;
+        t1.start();
+        t2.start();
         int aux1 = 0;
         int aux2 = 0;
 
-        while(t1.isAlive() && t2.isAlive()){
+        while (t1.isAlive() && t2.isAlive()) {
 
             //System.out.println("TESTE " + c1.toString());
 
@@ -88,82 +68,81 @@ public class CAM {
             }
 
             //---------------carro 1 ------------------------------------
-            if (aux1==0){
+            if (aux1 == 0) {
                 millis[0][0] = c1.getMillis();
                 lat[0][0] = c1.getLat();
                 lon[0][0] = c1.getLongi();
                 aux1 = 1;
-            }else if(aux1 == 1 && millis[0][0] != c1.getMillis()){
+            } else if (aux1 == 1 && millis[0][0] != c1.getMillis()) {
                 millis[0][1] = c1.getMillis();
                 lat[0][1] = c1.getLat();
                 lon[0][1] = c1.getLongi();
 
                 r1 = calculoReta(lat[0][0], lon[0][0], lat[0][1], lon[0][1]);
-                segundos1 = (millis[0][1] - millis[0][0])/1000;
+                segundos1 = (millis[0][1] - millis[0][0]) / 1000;
                 aux1 = 2;
-            }else if(aux1 == 2 && millis[0][1] != c1.getMillis() ){
+            } else if (aux1 == 2 && millis[0][1] != c1.getMillis()) {
                 millis[0][0] = millis[0][1];
                 lat[0][0] = lat[0][1];
-                lon[0][0]  = lon[0][1];
+                lon[0][0] = lon[0][1];
 
                 millis[0][1] = c1.getMillis();
                 lat[0][1] = c1.getLat();
                 lon[0][1] = c1.getLongi();
 
                 r1 = calculoReta(lat[0][0], lon[0][0], lat[0][1], lon[0][1]);
-                segundos1 = (millis[0][1] - millis[0][0])/1000;
+                segundos1 = (millis[0][1] - millis[0][0]) / 1000;
             }
             //---------------carro 2 ------------------------------------
-            if (aux2==0){
+            if (aux2 == 0) {
                 millis[1][0] = c2.getMillis();
                 lat[1][0] = c2.getLat();
                 lon[1][0] = c2.getLongi();
                 aux2 = 1;
-            }else if(aux2 == 1 && millis[1][0] != c2.getMillis()){
+            } else if (aux2 == 1 && millis[1][0] != c2.getMillis()) {
                 millis[1][1] = c2.getMillis();
                 lat[1][1] = c2.getLat();
                 lon[1][1] = c2.getLongi();
 
                 r2 = calculoReta(lon[1][0], lat[1][0], lon[1][1], lat[1][1]);
-                segundos2 = (millis[1][1] - millis[1][0])/1000;
+                segundos2 = (millis[1][1] - millis[1][0]) / 1000;
                 aux2 = 2;
-            }else if(aux2 == 2 && millis[1][1] != c2.getMillis() ){
+            } else if (aux2 == 2 && millis[1][1] != c2.getMillis()) {
                 millis[1][0] = millis[1][1];
                 lat[1][0] = lat[1][1];
-                lon[1][0]  = lon[1][1];
+                lon[1][0] = lon[1][1];
 
                 millis[1][1] = c2.getMillis();
                 lat[1][1] = c2.getLat();
                 lon[1][1] = c2.getLongi();
 
                 r2 = calculoReta(lon[1][0], lat[1][0], lon[1][1], lat[1][1]);
-                segundos2 = (millis[1][1] - millis[1][0])/1000;
+                segundos2 = (millis[1][1] - millis[1][0]) / 1000;
             }
 //-----------------------------------------------------------
-            if(aux1 == 2 && aux2 == 2){ //se existirem 2 coordenadas para os dois carros
+            if (aux1 == 2 && aux2 == 2) { //se existirem 2 coordenadas para os dois carros
                 x = (r2.b - r1.b) / (r1.m - r2.m);
                 y = (r1.m * x) + r1.b;
 
-                distanciaEntreCarros = Haversine.distance(lat[0][1], lon[0][1], lat[1][1], lon[1][1])*1000;
+                distanciaEntreCarros = Haversine.distance(lat[0][1], lon[0][1], lat[1][1], lon[1][1]) * 1000;
 //carro 1------------
-                distancia1 = Haversine.distance(lat[0][0], lon[0][0], lat[0][1], lon[0][1])*1000; //distancia em metros
-                distanciaColisao1 = Haversine.distance(lat[0][1], lon[0][1] , x, y)*1000;
-                velocidade1 = distancia1/segundos1 ;
-                tempoColisao1 = distanciaColisao1/velocidade1 ;
+                distancia1 = Haversine.distance(lat[0][0], lon[0][0], lat[0][1], lon[0][1]) * 1000; //distancia em metros
+                distanciaColisao1 = Haversine.distance(lat[0][1], lon[0][1], x, y) * 1000;
+                velocidade1 = distancia1 / segundos1;
+                tempoColisao1 = distanciaColisao1 / velocidade1;
                 distanciadeTravagem1 = (velocidade1 * velocidade1) / 15.696;
                 distanciaAviso1 = tempoaviso * velocidade1 + distanciadeTravagem1; //distancia à qual vai ser gerado o aviso
 //carro 2------------
-                distancia2 = Haversine.distance(lat[1][0], lon[1][0], lat[1][1], lon[1][1])*1000;
-                distanciaColisao2 = Haversine.distance(lat[1][1], lon[1][1] , x, y)*1000;
-                velocidade2 = distancia2/segundos2 ;
-                tempoColisao2 = distanciaColisao2/velocidade2 ;
+                distancia2 = Haversine.distance(lat[1][0], lon[1][0], lat[1][1], lon[1][1]) * 1000;
+                distanciaColisao2 = Haversine.distance(lat[1][1], lon[1][1], x, y) * 1000;
+                velocidade2 = distancia2 / segundos2;
+                tempoColisao2 = distanciaColisao2 / velocidade2;
                 distanciadeTravagem2 = (velocidade2 * velocidade2) / 15.696;
                 distanciaAviso2 = tempoaviso * velocidade2 + distanciadeTravagem2;
 
-                if(distanciaAviso1 >= distanciaColisao1 || distanciaAviso2 >= distanciaColisao2 && Math.abs(tempoColisao2 - tempoColisao1) < 10)
-                {
+                if (distanciaAviso1 >= distanciaColisao1 || distanciaAviso2 >= distanciaColisao2 && Math.abs(tempoColisao2 - tempoColisao1) < 10) {
                     System.out.println("!!!!!TRAVAR Colisão Eminente!!!!!");
-                }else {
+                } else {
                     System.out.println("reta 1: y = " + r1.m + "x" + "+(" + r1.b + ")");
                     System.out.println("reta 2: y = " + r2.m + "x" + "+(" + r2.b + ")");
                     System.out.println("Ponto de colisão: ( " + x + ", " + y + ")");
@@ -181,16 +160,15 @@ public class CAM {
                     System.out.println("2:Distancia do aviso: " + distanciaAviso2 + "m");
                     System.out.println("---------------------------------------------");
                 }
-                if(distanciaColisao1 < auxDistancia1) //menor distancia ao ponto de colisão
+                if (distanciaColisao1 < auxDistancia1) //menor distancia ao ponto de colisão
                 {
                     auxDistancia1 = distanciaColisao1;
-                }else{
+                } else {
                     t1.stop();
                 }
-                if(distanciaColisao2 < auxDistancia2)
-                {
+                if (distanciaColisao2 < auxDistancia2) {
                     auxDistancia2 = distanciaColisao2;
-                }else{
+                } else {
                     t2.stop();
                 }
             }
@@ -208,29 +186,4 @@ public class CAM {
 
         return r;
     }
-
-
-
-
-
-         /*       //conn.do_timestep();
-         for (int i = 0; i < 3600; i++) {
-             conn.do_timestep();
-             //System.out.println(conn.do_job_get(Vehicle.getIDList()));
-              Object o = conn.do_job_get(Vehicle.getLanePosition("veh1"));
-            // Collection<Vehicle> vehicles = conn.getVehicleRepository().getAll().values();
-         }
-/*
-            System.out.println(conn.do_job_get(Simulation.getLoadedNumber()));
-            System.out.println(conn.do_job_get(Simulation.getDepartedNumber()));
-            System.out.println(conn.do_job_get(Vehicle.getDistance("1")));
-            System.out.println(conn.do_job_get(Vehicle.getColor("1")));
-            System.out.println(conn.do_job_get(Vehicletype.getIDList()));
-             System.out.println(conn.do_job_get(Simulation.getArrivedIDList()));
-             //double co2 = (double) conn.do_job_get(Vehicle.getCO2Emission("11"));
-               // System.out.println("CO2: " + co2 + " g/s");
-
-               */
 }
-
-
