@@ -56,11 +56,17 @@ public class SUMOOutput {
 
             //Começa aos 10 segundos
 
-            //for(int i=0; i<100; i++){ //100 = 10 Segundos de Simulação
-                // conn.do_timestep(); // Adicionar isto para retirar os veiculos seguintes
-            //}
+            if(n==2)
+            for(int i=0; i<10; i++){ //100 = 10 Segundos de Simulação
+                 conn.do_timestep(); // Adicionar isto para retirar os veiculos seguintes
+            }
 
-            for(int i=0; i<2500; i++){
+            if(n==3)
+            for(int i=0; i<10; i++){ //100 = 10 Segundos de Simulação
+                conn.do_timestep(); // Adicionar isto para retirar os veiculos seguintes
+            }
+
+            for(int i=0; i<5000; i++){
 
                 //current simulation time
 
