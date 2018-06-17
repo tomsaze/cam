@@ -8962,12 +8962,12 @@ public final class Message {
     /**
      * <code>int32 latitude = 3;</code>
      */
-    int getLatitude();
+    double getLatitude();
 
     /**
      * <code>int32 longitude = 4;</code>
      */
-    int getLongitude();
+    double getLongitude();
 
     /**
      * <code>int32 heading = 5;</code>
@@ -9122,7 +9122,7 @@ public final class Message {
     /**
      * <code>int32 latitude = 3;</code>
      */
-    public int getLatitude() {
+    public double getLatitude() {
       return latitude_;
     }
 
@@ -9131,7 +9131,7 @@ public final class Message {
     /**
      * <code>int32 longitude = 4;</code>
      */
-    public int getLongitude() {
+    public double getLongitude() {
       return longitude_;
     }
 
@@ -9294,9 +9294,9 @@ public final class Message {
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTimestamp());
       hash = (37 * hash) + LATITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + getLatitude();
+      hash = (int) ((53 * hash) + getLatitude());
       hash = (37 * hash) + LONGITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + getLongitude();
+      hash = (int) ((53 * hash) + getLongitude());
       hash = (37 * hash) + HEADING_FIELD_NUMBER;
       hash = (53 * hash) + getHeading();
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
@@ -9474,8 +9474,8 @@ public final class Message {
         Message.CAM_p2a_Message result = new Message.CAM_p2a_Message(this);
         result.stationId_ = stationId_;
         result.timestamp_ = timestamp_;
-        result.latitude_ = latitude_;
-        result.longitude_ = longitude_;
+        result.latitude_ = (int) latitude_;
+        result.longitude_ = (int) longitude_;
         result.heading_ = heading_;
         result.speed_ = speed_;
         result.acceleration_ = acceleration_;
@@ -9623,17 +9623,17 @@ public final class Message {
         return this;
       }
 
-      private int latitude_ ;
+      private double latitude_ ;
       /**
        * <code>int32 latitude = 3;</code>
        */
-      public int getLatitude() {
+      public double getLatitude() {
         return latitude_;
       }
       /**
        * <code>int32 latitude = 3;</code>
        */
-      public Builder setLatitude(int value) {
+      public Builder setLatitude(double value) {
 
         latitude_ = value;
         onChanged();
@@ -9649,17 +9649,17 @@ public final class Message {
         return this;
       }
 
-      private int longitude_ ;
+      private double longitude_ ;
       /**
        * <code>int32 longitude = 4;</code>
        */
-      public int getLongitude() {
+      public double getLongitude() {
         return longitude_;
       }
       /**
        * <code>int32 longitude = 4;</code>
        */
-      public Builder setLongitude(int value) {
+      public Builder setLongitude(double value) {
 
         longitude_ = value;
         onChanged();
