@@ -1,8 +1,12 @@
 package cam;
 
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
 public class CalculoColisao {
 
-    public void colisao() {
+    public void colisao() throws SocketException, UnknownHostException {
 
         double[][] millis = new double[2][2];
         double[][] lon = new double[2][2];
@@ -35,6 +39,8 @@ public class CalculoColisao {
         reta r1 = new reta();
         reta r2 = new reta();
         Coordenadas c1 = null;
+        SendMessage s = new SendMessage();
+
         try {
             c1 = new Coordenadas(0);
         } catch (Exception e) {
@@ -153,8 +159,18 @@ public class CalculoColisao {
                 if (distanciaAviso1 >= distanciaColisao1 || distanciaAviso2 >= distanciaColisao2 && Math.abs(tempoColisao2 - tempoColisao1) < 10) {
                     System.out.println("!!!!!TRAVAR Colisão Eminente!!!!!");
                 }
-                
-                    System.out.println("----------------------------------------");
+
+                int heading = (int)r1.m;
+                long timeStamp = (long)millis[0][1];
+                try {
+                    s.sendMessage( 4, heading, lat[0][1], lon[0][1], velocidade1, 0,  timeStamp,0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println("----------------------------------------");
                     System.out.println("\n         "+millis[0][1]);
                     System.out.println("Ponto de colisão: ( " + y + ", " + x + ")");
                     System.out.println("reta 1: y = " + r1.m + "x" + "+(" + r1.b + ")");
@@ -178,6 +194,7 @@ public class CalculoColisao {
             }
         }
     }
+
     static reta calculoReta(double y1, double x1, double y2, double x2)
     {
         double b;

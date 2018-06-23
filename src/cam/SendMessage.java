@@ -23,9 +23,8 @@ public class SendMessage {
     }
 
 
-    public void sendMessage() throws IOException, InterruptedException {
+    public void sendMessage( int acceleration, int heading, double latitude, double longitude, double speed, int id, long timestamp,  int yawRate) throws IOException, InterruptedException {
 
-        while (true) {
             data = ("CarID: " + 1+ "Timestamp:"+ "Latitude\", \"Longitude\", \"Heading\", \"Speed\", \"Acceleration\", \"YawRate\", }" + i).getBytes();
 
 
@@ -38,14 +37,14 @@ public class SendMessage {
                             Message.SendRequestMessage.newBuilder()
                                     .setCam(
                                             Message.CAM_p2a_Message.newBuilder()
-                                                    .setAcceleration(234)
-                                                    .setHeading(50)
-                                                    .setLatitude(12.3456)
-                                                    .setLongitude(8.4556)
-                                                    .setSpeed(200)
-                                                    .setStationId(2)
-                                                    .setTimestamp(300)
-                                                    .setYawRate(0)
+                                                    .setAcceleration(acceleration)
+                                                    .setHeading(heading)
+                                                    .setLatitude(latitude)
+                                                    .setLongitude(longitude)
+                                                    .setSpeed(speed)
+                                                    .setStationId(id)
+                                                    .setTimestamp(timestamp)
+                                                    .setYawRate(yawRate)
                                     )
                     )
                     .build();
@@ -65,8 +64,6 @@ public class SendMessage {
         }
         System.out.println("Sent opaque, payload: " + new String(data));
         i++;
-        sleep(1000);
-    }
     }
 
 
