@@ -1,11 +1,9 @@
 package cam;
 
-import com.google.protobuf.ByteString;
 
 import java.io.IOException;
 import java.net.*;
 
-import static java.lang.Thread.*;
 
 public class SendMessage {
 
@@ -16,14 +14,14 @@ public class SendMessage {
     Message.MessageP2A message;
     DatagramPacket datagramPacket;
     DatagramSocket sendRequestSocket = new DatagramSocket(8080);
-    InetAddress sendRequestIP = InetAddress.getByName("192.168.1.11");
+    InetAddress sendRequestIP = InetAddress.getByName("192.168.1.161");
 
     public SendMessage() throws SocketException, UnknownHostException {
 
     }
 
 
-    public void sendMessage( int acceleration, int heading, double latitude, double longitude, double speed, int id, long timestamp,  int yawRate) throws IOException, InterruptedException {
+    public void sendMessage( int acceleration, int heading, double latitude, double longitude, double speed, int id, long timestamp,  int yawRate, int alert) throws IOException, InterruptedException {
 
             data = ("CarID: " + 1+ "Timestamp:"+ "Latitude\", \"Longitude\", \"Heading\", \"Speed\", \"Acceleration\", \"YawRate\", }" + i).getBytes();
 
@@ -45,6 +43,7 @@ public class SendMessage {
                                                     .setStationId(id)
                                                     .setTimestamp(timestamp)
                                                     .setYawRate(yawRate)
+                                            .setAlert(alert)
                                     )
                     )
                     .build();

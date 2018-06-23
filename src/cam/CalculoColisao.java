@@ -163,7 +163,7 @@ public class CalculoColisao {
                 int heading = (int)r1.m;
                 long timeStamp = (long)millis[0][1];
                 try {
-                    s.sendMessage( 4, heading, lat[0][1], lon[0][1], velocidade1, 0,  timeStamp,0);
+                    s.sendMessage( 4, heading, lat[0][1], lon[0][1], velocidade1, 0,  timeStamp,0, 0);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
