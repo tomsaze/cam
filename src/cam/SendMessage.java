@@ -14,14 +14,14 @@ public class SendMessage {
     Message.MessageP2A message;
     DatagramPacket datagramPacket;
     DatagramSocket sendRequestSocket = new DatagramSocket(8080);
-    InetAddress sendRequestIP = InetAddress.getByName("192.168.1.161");
+    InetAddress sendRequestIP = InetAddress.getByName("192.168.1.11");
 
     public SendMessage() throws SocketException, UnknownHostException {
 
     }
 
 
-    public void sendMessage( int acceleration, int heading, double latitude, double longitude, double speed, int id, long timestamp,  int yawRate, int alert) throws IOException, InterruptedException {
+    public void sendMessage( int acceleration, double heading, double latitude, double longitude, double speed, int id, long timestamp,  int yawRate, int alert) throws IOException, InterruptedException {
 
             data = ("CarID: " + 1+ "Timestamp:"+ "Latitude\", \"Longitude\", \"Heading\", \"Speed\", \"Acceleration\", \"YawRate\", }" + i).getBytes();
 
@@ -43,7 +43,7 @@ public class SendMessage {
                                                     .setStationId(id)
                                                     .setTimestamp(timestamp)
                                                     .setYawRate(yawRate)
-                                            .setAlert(alert)
+                                                    .setAlert(alert)
                                     )
                     )
                     .build();

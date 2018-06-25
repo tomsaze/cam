@@ -160,10 +160,10 @@ public class CalculoColisao {
                     System.out.println("!!!!!TRAVAR Colisão Eminente!!!!!");
                 }
 
-                int heading = (int)r1.m;
+                double heading = r1.m;
                 long timeStamp = (long)millis[0][1];
                 try {
-                    s.sendMessage( 4, heading, lat[0][1], lon[0][1], velocidade1, 0,  timeStamp,0, 0);
+                    s.sendMessage( 4, heading, lat[0][1], lon[0][1], velocidade1, 1,  timeStamp,1, 1);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
