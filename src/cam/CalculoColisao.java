@@ -161,12 +161,12 @@ public class CalculoColisao {
 
                 if (distanciaAviso1 >= distanciaColisao1 || distanciaAviso2 >= distanciaColisao2 && Math.abs(tempoColisao2 - tempoColisao1) < 10) {
                     System.out.println("!!!!!TRAVAR Colisão Eminente!!!!!");
-                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 1,  timeStamp1,1, 1);
-                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 2,  timeStamp2,1, 1);
+                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 1,  timeStamp1,1, 2);
+                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 2,  timeStamp2,1, 2);
                 }
                 try {
-                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 1,  timeStamp1,1, 0);
-                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 2,  timeStamp2,1, 0);
+                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 1,  timeStamp1,1, 1);
+                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 2,  timeStamp2,1, 1);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -183,13 +183,13 @@ public class CalculoColisao {
 //                    System.out.println("------------------Carro 1----------------------");
 //                    System.out.println("1:Distancia ao ponto de colisão: " + distanciaColisao1 + "m");
 //                    System.out.println("1:Tempo que demora ao ponto de colisão: " + tempoColisao1 + "s");
-//                    System.out.println("1:Velocidade do Veiculo: " + velocidade1 + "m/s");
+                    System.out.println("1:Velocidade do Veiculo: " + velocidade1 + "m/s");
 //                    System.out.println("1:Distancia de travagem: " + distanciadeTravagem1 + "m");
 //                    System.out.println("1:Distancia do aviso: " + distanciaAviso1 + "m");
 //                    System.out.println("------------------Carro 2----------------------");
                     System.out.println("2:Distancia ao ponto de colisão: " + distanciaColisao2 + "m");
 //                    System.out.println("2:Tempo que demora ao ponto de colisão: " + tempoColisao2 + "s");
-//                    System.out.println("2:Velocidade do Veiculo: " + velocidade2 + "m/s");
+                    System.out.println("2:Velocidade do Veiculo: " + velocidade2 + "m/s");
 //                    System.out.println("2:Distancia de travagem: " + distanciadeTravagem2 + "m");
 //                    System.out.println("2:Distancia do aviso: " + distanciaAviso2 + "m");
 //                    System.out.println("---------------------------------------------");
