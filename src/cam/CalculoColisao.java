@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 
 public class CalculoColisao {
 
-    public void colisao() throws SocketException, UnknownHostException {
+    public void colisao() throws IOException, InterruptedException {
 
         double[][] millis = new double[2][2];
         double[][] lon = new double[2][2];
@@ -156,14 +156,17 @@ public class CalculoColisao {
                 distanciadeTravagem2 = (velocidade2 * velocidade2) / 15.696;
                 distanciaAviso2 = tempoaviso * velocidade2 + distanciadeTravagem2;
 
+                long timeStamp1 = (long)millis[0][1];
+                long timeStamp2 = (long)millis[1][1];
+
                 if (distanciaAviso1 >= distanciaColisao1 || distanciaAviso2 >= distanciaColisao2 && Math.abs(tempoColisao2 - tempoColisao1) < 10) {
                     System.out.println("!!!!!TRAVAR Colisão Eminente!!!!!");
+                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 0,  timeStamp1,1, 1);
+                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 1,  timeStamp2,1, 1);
                 }
-
-                double heading = r1.m;
-                long timeStamp = (long)millis[0][1];
                 try {
-                    s.sendMessage( 4, heading, lat[0][1], lon[0][1], velocidade1, 1,  timeStamp,1, 1);
+                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 0,  timeStamp1,1, 0);
+                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 1,  timeStamp2,1, 0);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

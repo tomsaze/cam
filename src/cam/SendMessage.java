@@ -14,7 +14,7 @@ public class SendMessage {
     Message.MessageP2A message;
     DatagramPacket datagramPacket;
     DatagramSocket sendRequestSocket = new DatagramSocket(8080);
-    InetAddress sendRequestIP = InetAddress.getByName("192.168.1.11");
+    InetAddress sendRequestIP = InetAddress.getByName("192.168.1.161");
 
     public SendMessage() throws SocketException, UnknownHostException {
 
