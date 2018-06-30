@@ -161,12 +161,12 @@ public class CalculoColisao {
 
                 if (distanciaAviso1 >= distanciaColisao1 || distanciaAviso2 >= distanciaColisao2 && Math.abs(tempoColisao2 - tempoColisao1) < 10) {
                     System.out.println("!!!!!TRAVAR Colisão Eminente!!!!!");
-                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 0,  timeStamp1,1, 1);
-                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 1,  timeStamp2,1, 1);
+                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 1,  timeStamp1,1, 1);
+                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 2,  timeStamp2,1, 1);
                 }
                 try {
-                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 0,  timeStamp1,1, 0);
-                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 1,  timeStamp2,1, 0);
+                    s.sendMessage( 4, r1.m, lat[0][1], lon[0][1], velocidade1, 1,  timeStamp1,1, 0);
+                    s.sendMessage( 4, r2.m, lat[1][1], lon[1][1], velocidade1, 2,  timeStamp2,1, 0);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
