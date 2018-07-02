@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 
 public class CalculoColisao {
 
-    public void colisao() throws IOException, InterruptedException {
+    public void colisao(int tempoaviso) throws IOException, InterruptedException {
 
         double[][] millis = new double[2][2];
         double[][] lon = new double[2][2];
@@ -24,7 +24,7 @@ public class CalculoColisao {
         double distanciadeTravagem1;
         double distanciadeTravagem2;
 
-        int tempoaviso = 2; //com quanto tempo de antecedencia avisamos o condutor
+         //com quanto tempo de antecedencia avisamos o condutor
         double distanciaAviso1;
         double distanciaAviso2;
         double auxDistancia1 = 10000000;//inicializar com um numero grande para poder calcular o menor

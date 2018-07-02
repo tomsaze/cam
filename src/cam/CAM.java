@@ -25,7 +25,7 @@ public class CAM {
 
 
         CalculoColisao c = new CalculoColisao();
-        c.colisao();
+        c.colisao(4);
 
 
 
