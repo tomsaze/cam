@@ -175,22 +175,22 @@ public class CalculoColisao {
 
                 System.out.println("----------------------------------------");
                     System.out.println("\n         "+millis[0][1]);
-                    System.out.println("Ponto de colisão: ( " + y + ", " + x + ")");
-                    System.out.println("reta 1: y = " + r1.m + "x" + "+(" + r1.b + ")");
-                    System.out.println("Carro1 posição: "+lat[0][1] +" "+ lon[0][1]);
-                    System.out.println("reta 2: y = " + r2.m + "x" + "+(" + r2.b + ")");
-                    System.out.println("Carro2 posição: "+lat[1][1] +" "+ lon[1][1]);
+//                    System.out.println("Ponto de colisão: ( " + y + ", " + x + ")");
+//                    System.out.println("reta 1: y = " + r1.m + "x" + "+(" + r1.b + ")");
+//                    System.out.println("Carro1 posição: "+lat[0][1] +" "+ lon[0][1]);
+//                    System.out.println("reta 2: y = " + r2.m + "x" + "+(" + r2.b + ")");
+//                    System.out.println("Carro2 posição: "+lat[1][1] +" "+ lon[1][1]);
 //                    System.out.println("------------------Carro 1----------------------");
 //                    System.out.println("1:Distancia ao ponto de colisão: " + distanciaColisao1 + "m");
 //                    System.out.println("1:Tempo que demora ao ponto de colisão: " + tempoColisao1 + "s");
-                    System.out.println("1:Velocidade do Veiculo: " + velocidade1 + "m/s");
+//                    System.out.println("1:Velocidade do Veiculo: " + velocidade1 + "m/s");
 //                    System.out.println("1:Distancia de travagem: " + distanciadeTravagem1 + "m");
 //                    System.out.println("1:Distancia do aviso: " + distanciaAviso1 + "m");
 //                    System.out.println("------------------Carro 2----------------------");
-                    System.out.println("2:Distancia ao ponto de colisão: " + distanciaColisao2 + "m");
+//                    System.out.println("2:Distancia ao ponto de colisão: " + distanciaColisao2 + "m");
 //                    System.out.println("2:Tempo que demora ao ponto de colisão: " + tempoColisao2 + "s");
-                    System.out.println("2:Velocidade do Veiculo: " + velocidade2 + "m/s");
-//                    System.out.println("2:Distancia de travagem: " + distanciadeTravagem2 + "m");
+//                    System.out.println("2:Velocidade do Veiculo: " + velocidade2 + "m/s");
+//                   System.out.println("2:Distancia de travagem: " + distanciadeTravagem2 + "m");
 //                    System.out.println("2:Distancia do aviso: " + distanciaAviso2 + "m");
 //                    System.out.println("---------------------------------------------");
 //                }
